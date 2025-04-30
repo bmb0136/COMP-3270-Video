@@ -3,6 +3,7 @@ import os, sys, subprocess
 scenes = [
   ("intro", "Intro"),
   ("ipq", "IPQ"),
+  ("prims", "Prims")
   ("dijkstra", "Dijkstra")
 ]
 
