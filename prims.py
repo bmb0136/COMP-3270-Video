@@ -1,5 +1,5 @@
 from manim import *
-from WeightedLine import WeightedLine
+from weighted_line import WeightedLine
 from ipq_sim import Sim
 import os
 
@@ -58,7 +58,7 @@ class Prims(Scene):
     sim = Sim(self, ipq, 8)
 
     steps = VGroup(*[Tex(*x) for x in [
-      ["1. Init IPQ with all nodes with null MST edge and priority $\\infty$"],
+      ["1. Init IPQ with all nodes with null ", "MST edge", " and priority $\\infty$"],
       ["2. Create MST with no edges"],
       ["3. Update priority of start node to $0$"],
       ["4. Pop minimum node off IPQ"],
@@ -68,6 +68,7 @@ class Prims(Scene):
       ["8. If IPQ is not empty, goto 4"]
     ]]).arrange_in_grid(8, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
 
+    steps[0].set_color_by_tex("MST edge", YELLOW)
     steps[4].set_color_by_tex("MST edge", YELLOW)
     steps[4].set_color_by_tex("add", RED)
     steps[5].set_color_by_tex("MST edge", YELLOW)
