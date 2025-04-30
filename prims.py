@@ -154,6 +154,8 @@ class Prims(Scene):
       for e, v in mst.edges.items()
       if v.color == RED
     ]))
+
+    self.play(ReplacementTransform(header, Title("Dijkstra's Algorithm")))
     self.wait(1)
 
 if __name__ == "__main__":

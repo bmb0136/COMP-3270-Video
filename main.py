@@ -3,6 +3,7 @@ import os, sys, subprocess
 scenes = [
   ("intro", "Intro"),
   ("ipq", "IPQ"),
+  ("dijkstra", "Dijkstra")
 ]
 
 is_final = "--final" in sys.argv
