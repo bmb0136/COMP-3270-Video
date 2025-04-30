@@ -5,6 +5,7 @@ scenes = [
   ("ipq", "IPQ"),
   ("prims", "Prims"),
   ("dijkstra", "Dijkstra")
+  ("astar", "AStar")
 ]
 
 is_final = "--final" in sys.argv

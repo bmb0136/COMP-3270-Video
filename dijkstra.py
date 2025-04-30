@@ -200,6 +200,7 @@ class Dijkstra(Scene):
 
     self.wait(3)
     self.play(AnimationGroup(*[Unwrite(x) for x in self.mobjects]))
+    self.play(ReplacementTransform(header, Title("A*")))
     self.wait(1)
 
 
