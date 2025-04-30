@@ -199,4 +199,4 @@ class Dijkstra(Scene):
     self.play(AnimationGroup(*an))
 
 if __name__ == "__main__":
-  os.system(f"py -m manim -n 0-5 -ql \"{__file__}\" Dijkstra")
+  os.system(f"py -m manim -ql \"{__file__}\" Dijkstra")
