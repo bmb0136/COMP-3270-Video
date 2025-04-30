@@ -10,19 +10,24 @@ class Intro(Scene):
       "Prim's Algorithm converts a graph into a MST",
       "It is asymptotically faster than Kruskal's",
       "Prim's primary advantage is the use of an Indexed Priority Queue",
+      "Prim's is closely related to Dijkstra's Algorithm and A*;",
+      "the differences between them are only a few lines of code",
       alignment="center"
-    ).scale(0.5)
+    ).scale(0.5).center()
     ipq_pos = 2 - len("Indexed Priority Queue")
     intro[2][ipq_pos:].color = YELLOW
     self.play(Write(intro))
 
     self.wait(4)
-    self.play(LaggedStart(
-      Unwrite(VGroup(intro[0], intro[1], intro[2][:ipq_pos])),
+    self.play(LaggedStart(*[
+      Unwrite(intro[0]),
+      Unwrite(intro[1]),
+      Unwrite(VGroup(intro[2][:ipq_pos])),
+      Unwrite(intro[3]),
+      Unwrite(intro[4]),
       intro[2][ipq_pos:].animate.move_to(ORIGIN),
-      Unwrite(header),
-      lag_ratio=0.5
-    ))
+      Unwrite(header)
+    ], lag_ratio=0.5))
     self.play(ReplacementTransform(intro[2][ipq_pos:], Title("Indexed Priority Queue")))
 
 if __name__ == "__main__":
