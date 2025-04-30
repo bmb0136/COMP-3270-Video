@@ -3,7 +3,7 @@ from ipq_sim import Sim
 from weighted_line import WeightedLine
 import os
 
-class AStart(Scene):
+class AStar(Scene):
   def construct(self):
     header = Title("A*")
     self.add(header)
