@@ -120,9 +120,9 @@ class Prims(Scene):
       )
       for x, y in adjacent:
         e = (x, y)
-        self.play(Indicate(graph.edges[e]))
         if x != id:
           x, y = y, x
+        self.play(Indicate(graph.edges[y]))
         if y in visited:
           continue
         w = graph.edges[e].weight
