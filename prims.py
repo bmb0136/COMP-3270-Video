@@ -46,7 +46,7 @@ class Prims(Scene):
     for o in mst.vertices.values():
       o.submobjects[0].set_color(BLACK)
     for o in mst.edges.values():
-      o.set_color(BLACK)
+      o.set_color(ManimColor.from_rgba([0, 0, 0, 0]))
 
     ipq = MathTable([[
       f"{i}, \\infty" for i in range(8)
@@ -131,7 +131,9 @@ class Prims(Scene):
           mst_weight[y] = w
           an = [mst.edges[e].animate.set_color(YELLOW)]
           if y in mst_edges:
-            an.append(mst.edges[mst_edges[y]].animate.set_color(BLACK))
+            an.append(mst.edges[mst_edges[y]].animate.set_color(
+              ManimColor.from_rgba([0, 0, 0, 0]))
+            )
           mst_edges[y] = e
           self.play(AnimationGroup(*an))
       self.wait(1)
