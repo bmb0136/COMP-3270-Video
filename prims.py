@@ -90,7 +90,7 @@ class Prims(Scene):
     self.wait(1)
 
     self.play(Indicate(steps[2]))
-    sim.decrease_key(1, 0)
+    sim.update_key(1, 0)
     self.wait(1)
 
     visited = set()
@@ -124,7 +124,7 @@ class Prims(Scene):
           continue
         w = graph.edges[e].weight
         if w < mst_weight[y]:
-          sim.decrease_key(y, w)
+          sim.update_key(y, w)
           mst_weight[y] = w
           if y in mst_edges:
             self.play(mst.edges[mst_edges[y]].animate.set_color(BLACK))

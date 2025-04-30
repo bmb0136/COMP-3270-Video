@@ -13,7 +13,7 @@ class Sim:
     self.idx_to_id = dict(self.id_to_idx)
     self.keys = {i: float('inf') for i in range(count)}
   
-  def decrease_key(self, id, key):
+  def update_key(self, id, key):
     self.keys[id] = key
     self.scene.play(AnimationGroup(
       Transform(
@@ -25,14 +25,9 @@ class Sim:
     self.scene.remove(old)
     self.scene.add(new)
     self.id_to_manim[id] = new
-    while True:
-      i = self.id_to_idx[id]
-      p = (i - 1) // 2
-      if i not in self.idx_to_id or p not in self.idx_to_id:
-        break
-      if key >= self.keys[self.idx_to_id[p]]:
-        break
-      self.swap(i, p)
+
+    self._move_down(self.id_to_idx[id])
+    self._move_up(self.id_to_idx[id])
   
   def swap(self, i, j):
     x = self.id_to_manim[self.idx_to_id[i]]
@@ -47,27 +42,8 @@ class Sim:
     root = self.id_to_manim[root_id]
 
     self.swap(0, self.count - 1)
-    i = 0
-    while True:
-      L = (2 * i) + 1
-      R = (2 * i) + 2
-      if L >= self.count - 1 or R >= self.count - 1:
-        break
-
-      any = False
-      k = self.keys[self.idx_to_id[i]]
-      if k > self.keys[self.idx_to_id[L]]:
-        self.swap(i, L)
-        i = L
-        any = True
-      
-      if k > self.keys[self.idx_to_id[R]]:
-        self.swap(i, R)
-        i = R
-        any = True
-      
-      if not any:
-        break
+    self._move_down(0)
+    self._move_up(0)
 
     self.scene.play(root.animate.center().scale(2))
     self.scene.play(Unwrite(root))
@@ -79,3 +55,21 @@ class Sim:
     del self.id_to_manim[root_id]
     self.count -= 1
     return root_id
+  
+  def _move_up(self, i):
+    i = self.id_to_idx[id]
+    p = (i - 1) // 2
+    if i >= 0 and self.keys[self.idx_to_id[i]] < self.keys[self.idx_to_id[p]]:
+      self.swap(i, p)
+      self._move_up(p)
+
+  def _move_down(self, i):
+    L = (2 * i) + 1
+    R = (2 * i) + 2
+    k = self.keys[self.idx_to_id[i]]
+    if L < self.count and k > self.keys[self.idx_to_id[L]]:
+      self.swap(i, L)
+      self._move_down(L)
+    if R < self.count and k > self.keys[self.idx_to_id[R]]:
+      self.swap(i, R)
+      self._move_down(R)
