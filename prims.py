@@ -63,14 +63,14 @@ class Prims(Scene):
       ["3. Update priority of start node to $0$"],
       ["4. Pop minimum node off IPQ"],
       ["5. If the node's ", "MST edge", " is not null, ", "add", " to MST"],
-      ["6. Relax adjacent nodes"],
+      ["6. Relax adjacent nodes (decrease key and set ", "MST edge", " if{\\newline}edge weight $<$ key)"],
       ["7. Mark node as ", "seen"],
       ["8. If IPQ is not empty, goto 4"]
-    ]]).arrange_in_grid(8, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.25)
+    ]]).arrange_in_grid(8, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
 
     steps[4].set_color_by_tex("MST edge", YELLOW)
     steps[4].set_color_by_tex("add", RED)
-
+    steps[5].set_color_by_tex("MST edge", YELLOW)
     steps[6].set_color_by_tex("seen", RED)
 
     self.play(Write(steps))
@@ -157,4 +157,4 @@ class Prims(Scene):
     self.wait(1)
 
 if __name__ == "__main__":
-  os.system(f"py -m manim -ql \"{__file__}\" Prims")
+  os.system(f"py -m manim -n 0-2 -ql \"{__file__}\" Prims")
