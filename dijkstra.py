@@ -117,12 +117,12 @@ class Dijkstra(Scene):
 
     self.play(Indicate(steps[0]))
     self.play(Create(ipq))
-    self.play(Write(Text("IPQ").scale(0.5).move_to(ipq).align_to(ipq, LEFT).shift(LEFT * 0.75)))
+    self.play(Write(ipq_text := Text("IPQ").scale(0.5).move_to(ipq).align_to(ipq, LEFT).shift(LEFT * 0.75)))
     self.wait(1)
 
     self.play(Indicate(steps[1]))
     self.play(AnimationGroup(
-      Write(Text("Parents").scale(0.5).move_to(parents.get_top() + (UP * 0.25))),
+      Write(parents_text := Text("Parents").scale(0.5).move_to(parents.get_top() + (UP * 0.25))),
       Create(parents),
       AnimationGroup(*[Write(o) for o, _ in distances.values()])
     ))
@@ -199,10 +199,17 @@ class Dijkstra(Scene):
     self.play(AnimationGroup(*an))
 
     self.wait(3)
-    self.play(AnimationGroup(*[Unwrite(x) if x is VMobject else Uncreate(x) for x in self.mobjects]))
+    self.play(AnimationGroup(
+      Uncreate(graph),
+      Uncreate(ipq),
+      Uncreate(parents),
+      Unwrite(steps),
+      Unwrite(parents_text),
+      Unwrite(ipq_text),
+    ))
     self.play(ReplacementTransform(header, Title("A*")))
     self.wait(1)
 
 
 if __name__ == "__main__":
-  os.system(f"py -m manim -ql \"{__file__}\" Dijkstra")
+  os.system(f"py -m manim -s -ql \"{__file__}\" Dijkstra")

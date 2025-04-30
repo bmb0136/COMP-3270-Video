@@ -80,12 +80,12 @@ class Prims(Scene):
 
     self.play(Indicate(steps[0]))
     self.play(Create(ipq))
-    self.play(Write(Text("IPQ").scale(0.5).move_to(ipq).align_to(ipq, LEFT).shift(LEFT * 0.75)))
+    self.play(Write(ipq_text := Text("IPQ").scale(0.5).move_to(ipq).align_to(ipq, LEFT).shift(LEFT * 0.75)))
     self.wait(1)
 
     self.play(Indicate(steps[1]))
     self.play(AnimationGroup(
-      Write(Text("MST").scale(0.5).move_to(mst.get_top() + (UP * 0.25))),
+      Write(mst_text := Text("MST").scale(0.5).move_to(mst.get_top() + (UP * 0.25))),
       Create(mst)
     ))
     self.wait(1)
@@ -157,7 +157,14 @@ class Prims(Scene):
     ]))
 
     self.wait(3)
-    self.play(AnimationGroup(*[Unwrite(x) if x is VMobject else Uncreate(x) for x in self.mobjects]))
+    self.play(AnimationGroup(
+      Uncreate(graph),
+      Uncreate(ipq),
+      Uncreate(mst),
+      Unwrite(steps),
+      Unwrite(mst_text),
+      Unwrite(ipq_text),
+    ))
     self.play(ReplacementTransform(header, Title("Dijkstra's Algorithm")))
     self.wait(1)
 
