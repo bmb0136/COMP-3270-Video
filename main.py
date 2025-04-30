@@ -7,6 +7,7 @@ scenes = [
   ("dijkstra", "Dijkstra"),
   ("astar", "AStar"),
   ("comparison", "Comparison"),
+  ("comparison2", "Comparison"),
 ]
 
 is_final = "--final" in sys.argv
