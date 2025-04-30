@@ -84,6 +84,7 @@ class Comparison(Scene):
       FadeOut(a),
       FadeOut(d)
     ))
+    self.wait(1)
 
 if __name__ == "__main__":
   os.system(f"py -m manim -ql \"{__file__}\" Comparison")
