@@ -105,7 +105,11 @@ class Prims(Scene):
       self.play(Indicate(mst.vertices[id]))
       if id in mst_edges:
         x, y = mst_edges[id]
-        self.play(mst.edges[(x, y)].animate.set_color(RED))
+        e = mst.edges[(x, y)]
+        self.play(AnimationGroup(
+          e.animate.set_color(RED),
+          Flash(e, flash_radius=MED_SMALL_BUFF)
+        ))
       self.wait(1)
       
       self.play(Indicate(steps[5]))
