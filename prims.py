@@ -156,6 +156,7 @@ class Prims(Scene):
       if v.color == RED
     ]))
 
+    self.play(AnimationGroup(*[Unwrite(x) for x in self.mobjects]))
     self.play(ReplacementTransform(header, Title("Dijkstra's Algorithm")))
     self.wait(1)
 
