@@ -198,5 +198,10 @@ class Dijkstra(Scene):
     an = an[::-1]
     self.play(AnimationGroup(*an))
 
+    self.wait(3)
+    self.play(AnimationGroup(*[Unwrite(x) for x in self.mobjects]))
+    self.wait(1)
+
+
 if __name__ == "__main__":
   os.system(f"py -m manim -ql \"{__file__}\" Dijkstra")
