@@ -4,7 +4,7 @@ scenes = [
   ("intro", "Intro"),
   ("ipq", "IPQ"),
   ("prims", "Prims"),
-  ("dijkstra", "Dijkstra")
+  ("dijkstra", "Dijkstra"),
   ("astar", "AStar")
 ]
 
