@@ -157,4 +157,4 @@ class Prims(Scene):
     self.wait(1)
 
 if __name__ == "__main__":
-  os.system(f"py -m manim -n 0-2 -ql \"{__file__}\" Prims")
+  os.system(f"py -m manim -ql \"{__file__}\" Prims")
