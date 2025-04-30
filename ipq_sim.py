@@ -15,10 +15,11 @@ class Sim:
   
   def update_key(self, id, key):
     self.keys[id] = key
+    key2 = f"{key}" if key is int else f"{key:.1f}"
     self.scene.play(AnimationGroup(
       Transform(
         old := self.id_to_manim[id],
-        new := MathTex(f"{id}, {key}").scale(0.5).move_to(old)
+        new := MathTex(f"{id}, {key2}").scale(0.5).move_to(old)
       ),
       Flash(new, flash_radius=MED_SMALL_BUFF)
     ))

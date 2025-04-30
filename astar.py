@@ -161,10 +161,12 @@ class AStar(Scene):
     self.wait(1)
 
     visited = set()
+    self.visit_order = []
     parent_edges = {}
     while sim.count > 0:
       self.play(Indicate(steps[3]))
       id = sim.pop_min()
+      self.visit_order.append(id)
       self.wait(1)
 
       self.play(Indicate(steps[4]))
@@ -226,7 +228,7 @@ class AStar(Scene):
     an = an[::-1]
     self.play(AnimationGroup(*an))
 
-    self.result = [graph] + [x[0] for x in data.values()]
+    self.result = [graph.copy()] + [x[0].copy() for x in data.values()]
 
     self.wait(3)
     self.play(AnimationGroup(
@@ -239,7 +241,7 @@ class AStar(Scene):
       AnimationGroup(*[Unwrite(x) for x in sim.id_to_manim.values()]),
       AnimationGroup(*[Unwrite(x) for x, _, _ in data.values()])
     ))
-    self.play(ReplacementTransform(header, Title("Conclusion")))
+    self.play(ReplacementTransform(header, Title("Comparison")))
     self.wait(1)
 
 if __name__ == "__main__":
