@@ -97,7 +97,6 @@ class Prims(Scene):
     mst_edges = {}
     mst_weight = {x: sim.keys[x] for x in graph.vertices.keys()}
     while sim.count > 0:
-      print("iter:", " | ".join([f"{sim.idx_to_id[i]}({sim.keys[sim.idx_to_id[i]]})" for i in range(sim.count)]))
       self.play(Indicate(steps[3]))
       id = sim.pop_min()
       self.wait(1)
@@ -143,6 +142,11 @@ class Prims(Scene):
 
       self.play(Indicate(steps[7]))
 
+    self.play(LaggedStart(*[
+      graph.edges[e].animate.set_stroke(RED)
+      for e, v in mst.edges.items()
+      if v.color == RED
+    ]))
     self.wait(1)
 
 if __name__ == "__main__":

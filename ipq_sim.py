@@ -26,8 +26,9 @@ class Sim:
     self.scene.add(new)
     self.id_to_manim[id] = new
 
-    self._move_down(self.id_to_idx[id])
-    self._move_up(self.id_to_idx[id])
+    i = self.id_to_idx[id]
+    self._move_down(i)
+    self._move_up(i)
   
   def swap(self, i, j):
     x = self.id_to_manim[self.idx_to_id[i]]
@@ -35,41 +36,43 @@ class Sim:
     self.scene.play(Swap(x, y))
     self.id_to_idx[self.idx_to_id[i]], self.id_to_idx[self.idx_to_id[j]] = \
       self.id_to_idx[self.idx_to_id[j]], self.id_to_idx[self.idx_to_id[i]]
-    self.idx_to_id[i], self.idx_to_id[j] = self.idx_to_id[j], self.idx_to_id[i]
+    self.idx_to_id[i], self.idx_to_id[j] = \
+      self.idx_to_id[j], self.idx_to_id[i]
 
   def pop_min(self):
+    assert self.count > 0
     root_id = self.idx_to_id[0]
     root = self.id_to_manim[root_id]
 
-    self.swap(0, self.count - 1)
-    self._move_down(0)
-    self._move_up(0)
+    if self.count > 1:
+      self.swap(0, self.count - 1)
+      self.count -= 1
+      self._move_down(0)
+      self._move_up(0)
+    else:
+      self.count = 0
 
     self.scene.play(root.animate.center().scale(2))
     self.scene.play(Unwrite(root))
 
-    root_idx = self.id_to_idx[root_id]
     del self.keys[root_id]
-    del self.idx_to_id[root_idx]
+    del self.idx_to_id[self.id_to_idx[root_id]]
     del self.id_to_idx[root_id]
     del self.id_to_manim[root_id]
-    self.count -= 1
     return root_id
   
   def _move_up(self, i):
-    i = self.id_to_idx[id]
     p = (i - 1) // 2
-    if i >= 0 and self.keys[self.idx_to_id[i]] < self.keys[self.idx_to_id[p]]:
+    if i >= 0 and p >= 0 and self.keys[self.idx_to_id[i]] < self.keys[self.idx_to_id[p]]:
       self.swap(i, p)
       self._move_up(p)
 
   def _move_down(self, i):
     L = (2 * i) + 1
     R = (2 * i) + 2
-    k = self.keys[self.idx_to_id[i]]
-    if L < self.count and k > self.keys[self.idx_to_id[L]]:
+    if L < self.count and self.keys[self.idx_to_id[i]] > self.keys[self.idx_to_id[L]]:
       self.swap(i, L)
       self._move_down(L)
-    if R < self.count and k > self.keys[self.idx_to_id[R]]:
+    if R < self.count and self.keys[self.idx_to_id[i]] > self.keys[self.idx_to_id[R]]:
       self.swap(i, R)
       self._move_down(R)
