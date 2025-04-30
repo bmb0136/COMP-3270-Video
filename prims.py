@@ -157,7 +157,7 @@ class Prims(Scene):
     ]))
 
     self.wait(3)
-    self.play(AnimationGroup(*[Unwrite(x) for x in self.mobjects]))
+    self.play(AnimationGroup(*[Unwrite(x) if x is VMobject else Uncreate(x) for x in self.mobjects]))
     self.play(ReplacementTransform(header, Title("Dijkstra's Algorithm")))
     self.wait(1)
 

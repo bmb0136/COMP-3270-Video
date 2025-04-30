@@ -199,7 +199,7 @@ class Dijkstra(Scene):
     self.play(AnimationGroup(*an))
 
     self.wait(3)
-    self.play(AnimationGroup(*[Unwrite(x) for x in self.mobjects]))
+    self.play(AnimationGroup(*[Unwrite(x) if x is VMobject else Uncreate(x) for x in self.mobjects]))
     self.play(ReplacementTransform(header, Title("A*")))
     self.wait(1)
 
