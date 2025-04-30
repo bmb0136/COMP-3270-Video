@@ -10,8 +10,9 @@ class Dijkstra(Scene):
 
     detail = VGroup(*[Tex(*x).scale(0.5) for x in [
       ["Dijkstra's Algorithm finds a minimum cost path on a graph"],
-      ["It is nearly identical to Prim's, except that"],
-      ["a ", "parent", " node is stored instead of an ", "MST edge"]
+      ["It is nearly identical to Prim's, except:"],
+      ["$\\cdot$ a ", "parent", " node is stored instead of an ", "MST edge"],
+      ["$\\cdot$ the total distance is stored for each node"]
     ]]).arrange(DOWN, buff=SMALL_BUFF).center()
     detail[2].set_color_by_tex("MST", YELLOW)
     detail[2].set_color_by_tex("parent", YELLOW)
@@ -98,10 +99,10 @@ class Dijkstra(Scene):
       ["3. Update priority of start node to $0$"],
       ["4. Pop minimum node off IPQ"],
       ["5. If node is target, return path"],
-      ["6. Relax adjacent nodes (decrease key and set ", "parent", " if{\\newline}edge weight $<$ key)"],
+      ["6. Relax adjacent nodes (decrease key and set ", "parent", " if{\\newline}adj.dist $+$ weight $<$ current.dist)"],
       ["7. Mark node as ", "seen"],
       ["8. If IPQ is not empty, goto 4"]
-    ]]).arrange_in_grid(9, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.25)
+    ]]).arrange_in_grid(9, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
     steps[0].set_color_by_tex("parent", YELLOW)
     steps[4].set_color_by_tex("parent", YELLOW)
     steps[4].set_color_by_tex("add", RED)
@@ -166,7 +167,8 @@ class Dijkstra(Scene):
             an.append(parents.animate.remove_edges(parent_edges[y]))
           an.append(parents.animate.add_edges(
             (y, x),
-            edge_type=Arrow
+            edge_type=Arrow,
+            edge_config={"color": YELLOW}
           ))
           parent_edges[y] = (y, x)
           self.play(AnimationGroup(*an))
@@ -194,7 +196,7 @@ class Dijkstra(Scene):
       n = next
     assert len(an) > 0
     an = an[::-1]
-    self.play(Succession(*an))
+    self.play(AnimationGroup(*an))
 
 if __name__ == "__main__":
-  os.system(f"py -m manim -ql \"{__file__}\" Dijkstra")
+  os.system(f"py -m manim -n 0-5 -ql \"{__file__}\" Dijkstra")
