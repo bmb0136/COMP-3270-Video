@@ -129,10 +129,11 @@ class Prims(Scene):
         if w < mst_weight[y]:
           sim.update_key(y, w)
           mst_weight[y] = w
+          an = [mst.edges[e].animate.set_color(YELLOW)]
           if y in mst_edges:
-            self.play(mst.edges[mst_edges[y]].animate.set_color(BLACK))
+            an.append(mst.edges[mst_edges[y]].animate.set_color(BLACK))
           mst_edges[y] = e
-          self.play(mst.edges[e].animate.set_color(YELLOW))
+          self.play(AnimationGroup(*an))
       self.wait(1)
 
       self.play(Indicate(steps[6]))
