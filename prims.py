@@ -122,7 +122,7 @@ class Prims(Scene):
         e = (x, y)
         if x != id:
           x, y = y, x
-        self.play(Indicate(graph.edges[y]))
+        self.play(Indicate(graph.vertices[y]))
         if y in visited:
           continue
         w = graph.edges[e].weight
