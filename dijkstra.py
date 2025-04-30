@@ -96,7 +96,7 @@ class Dijkstra(Scene):
     steps = VGroup(*[Tex(*x) for x in [
       ["1. Init IPQ with all nodes with null ", "parent", " and priority $\\infty$"],
       ["2. Initialize nodes with null ", "parent", " and $\\infty$ distance"],
-      ["3. Update priority of start node to $0$"],
+      ["3. Update priority and score of start node to $0$"],
       ["4. Pop minimum node off IPQ"],
       ["5. If node is target, return path"],
       ["6. Relax adjacent nodes (decrease key and set ", "parent", " if{\\newline}adj.dist $+$ weight $<$ current.dist)"],
