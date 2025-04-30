@@ -206,6 +206,8 @@ class Dijkstra(Scene):
       Unwrite(steps),
       Unwrite(parents_text),
       Unwrite(ipq_text),
+      AnimationGroup(*[Unwrite(x) for x in sim.id_to_manim.values()]),
+      AnimationGroup(*[Unwrite(x) for x, _ in distances.values()])
     ))
     self.play(ReplacementTransform(header, Title("A*")))
     self.wait(1)
