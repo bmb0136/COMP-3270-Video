@@ -7,9 +7,10 @@ class Intro(Scene):
     self.play(Write(header))
 
     intro = Paragraph(
-      "Prim's Algorithm converts a graph into a MST",
+      "Prim's Algorithm returns an MST for a given graph",
       "It is asymptotically faster than Kruskal's",
       "Prim's primary advantage is the use of an Indexed Priority Queue",
+      "",
       "Prim's is closely related to Dijkstra's Algorithm and A*;",
       "the differences between them are only a few lines of code",
       alignment="center"
@@ -23,8 +24,8 @@ class Intro(Scene):
       Unwrite(intro[0]),
       Unwrite(intro[1]),
       Unwrite(VGroup(intro[2][:ipq_pos])),
-      Unwrite(intro[3]),
       Unwrite(intro[4]),
+      Unwrite(intro[5]),
       intro[2][ipq_pos:].animate.move_to(ORIGIN),
       Unwrite(header)
     ], lag_ratio=0.5))

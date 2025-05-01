@@ -16,6 +16,8 @@ class Sim:
   def update_key(self, id, key):
     self.keys[id] = key
     key2 = f"{key}" if key is int else f"{key:.1f}"
+    if ".0" in key2:
+      key2 = key2[:-2]
     self.scene.play(AnimationGroup(
       Transform(
         old := self.id_to_manim[id],

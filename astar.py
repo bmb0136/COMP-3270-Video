@@ -20,7 +20,7 @@ class AStar(Scene):
     detail[2].set_color_by_tex("dist", BLUE)
     detail[3]
     self.play(Write(detail))
-    self.wait(4)
+    self.wait(8)
 
     vertices = list(range(8))
     edges = [
@@ -120,7 +120,7 @@ class AStar(Scene):
       ["2. Initialize nodes with null ", "parent", ", $\\infty$\\space", " distance ", ", and $\\infty$\\space", " score"],
       ["3. Update ", "distance", " of start node to $0$, and ", "priority", " to $h(x)$"],
       ["4. Pop minimum node off IPQ"],
-      ["5. If node is target, return path"],
+      ["5. If node is target, return path (reversed parent chain)"],
       ["6. Relax adjacent nodes (decrease key, set ", "parent", ", update ", "distance", ",{\\newline} and update ", "score", " if adj.", "dist", " $+$ weight $<$ current.", "dist", ")"],
       ["7. Mark node as ", "seen"],
       ["8. If IPQ is not empty, goto 4"]
@@ -162,9 +162,17 @@ class AStar(Scene):
     visited = set()
     self.visit_order = []
     parent_edges = {}
+    highlight = Circle(
+      graph.vertices[0].radius + (SMALL_BUFF / 2),
+      color=PURPLE
+    )
     while sim.count > 0:
       self.play(Indicate(steps[3]))
       id = sim.pop_min()
+      if sim.count == len(vertices) - 1: # first
+        self.play(GrowFromCenter(highlight.move_to(graph.vertices[id])))
+      else:
+        self.play(highlight.animate.move_to(graph.vertices[id]))
       self.visit_order.append(id)
       self.wait(1)
 
@@ -183,9 +191,9 @@ class AStar(Scene):
         e = (x, y)
         if x != id:
           x, y = y, x
-        self.play(Indicate(graph.vertices[y]))
         if y in visited:
           continue
+        self.play(Indicate(graph.vertices[y]))
         w = graph.edges[e].weight
         if data[id][1] + w < data[y][1]:
           dist = data[id][1] + w
@@ -234,6 +242,7 @@ class AStar(Scene):
       Uncreate(graph),
       Uncreate(ipq),
       Uncreate(parents),
+      ShrinkToCenter(highlight),
       Unwrite(steps),
       Unwrite(parents_text),
       Unwrite(ipq_text),

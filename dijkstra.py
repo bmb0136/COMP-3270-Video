@@ -12,7 +12,7 @@ class Dijkstra(Scene):
       ["Dijkstra's Algorithm finds a minimum cost path on a graph"],
       ["It is nearly identical to Prim's, except:"],
       ["$\\cdot$ a ", "parent", " node is stored instead of an ", "MST edge"],
-      ["$\\cdot$ the total ", "distance", " is stored for each node"]
+      ["$\\cdot$ the minimum total ", "distance", " is stored for each node"]
     ]]).arrange(DOWN, buff=SMALL_BUFF).center()
     detail[2].set_color_by_tex("MST", YELLOW)
     detail[2].set_color_by_tex("parent", YELLOW)
@@ -101,10 +101,10 @@ class Dijkstra(Scene):
       ["2. Initialize nodes with null ", "parent", " and $\\infty$\\space", " distance"],
       ["3. Update priority and ", "distance", " of start node to $0$"],
       ["4. Pop minimum node off IPQ"],
-      ["5. If node is target, return path"],
-      ["6. Relax adjacent nodes (decrease key, update ", "distance", " and{\\newline}set ", "parent", " if adj.", "dist", " $+$ weight $<$ current.", "dist", ")"],
+      ["5. If node is target, return path (reversed parent chain)"],
+      ["6. Relax adjacent nodes (decrease key, update ", "distance", ", and{\\newline}set ", "parent", " if adj.", "dist", " $+$ weight $<$ current.", "dist", ")"],
       ["7. Mark node as ", "seen"],
-      ["8. If IPQ is not empty, goto 4"]
+      ["8. If IPQ is not empty, goto 4, else no path exists"]
     ]]).arrange_in_grid(9, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
     steps[0].set_color_by_tex("parent", YELLOW)
     steps[1].set_color_by_tex("dist", BLUE)
@@ -143,9 +143,17 @@ class Dijkstra(Scene):
     visited = set()
     self.visit_order = []
     parent_edges = {}
+    highlight = Circle(
+      graph.vertices[0].radius + (SMALL_BUFF / 2),
+      color=PURPLE
+    )
     while sim.count > 0:
       self.play(Indicate(steps[3]))
       id = sim.pop_min()
+      if sim.count == len(vertices) - 1: # first
+        self.play(GrowFromCenter(highlight.move_to(graph.vertices[id])))
+      else:
+        self.play(highlight.animate.move_to(graph.vertices[id]))
       self.visit_order.append(id)
       self.wait(1)
 
@@ -164,9 +172,9 @@ class Dijkstra(Scene):
         e = (x, y)
         if x != id:
           x, y = y, x
-        self.play(Indicate(graph.vertices[y]))
         if y in visited:
           continue
+        self.play(Indicate(graph.vertices[y]))
         w = graph.edges[e].weight
         if distances[id][1] + w < distances[y][1]:
           sim.update_key(y, w)
@@ -214,6 +222,7 @@ class Dijkstra(Scene):
       Uncreate(graph),
       Uncreate(ipq),
       Uncreate(parents),
+      ShrinkToCenter(highlight),
       Unwrite(steps),
       Unwrite(parents_text),
       Unwrite(ipq_text),
@@ -225,4 +234,4 @@ class Dijkstra(Scene):
 
 
 if __name__ == "__main__":
-  os.system(f"py -m manim -n 0-10 -ql \"{__file__}\" Dijkstra")
+  os.system(f"py -m manim -ql \"{__file__}\" Dijkstra")

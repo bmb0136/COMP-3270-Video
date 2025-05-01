@@ -37,7 +37,7 @@ class Prims(Scene):
     for o in graph.vertices.values():
       o.submobjects[0].set_color(BLACK)
     graph.shift(RIGHT * 3)
-    mst = DiGraph(
+    mst = Graph(
       vertices,
       [],
       labels=True,
@@ -127,9 +127,18 @@ class Prims(Scene):
 
     visited = set()
     mst_edges = {}
+    highlight = Circle(
+      graph.vertices[0].radius + (SMALL_BUFF / 2),
+      color=PURPLE
+    )
     while sim.count > 0:
       self.play(Indicate(steps[3]))
       id = sim.pop_min()
+      if sim.count == len(vertices) - 1: # first
+        self.play(GrowFromCenter(highlight.move_to(graph.vertices[id])))
+      else:
+        self.play(highlight.animate.move_to(graph.vertices[id]))
+
       self.wait(1)
 
       self.play(Indicate(steps[4]))
@@ -152,9 +161,9 @@ class Prims(Scene):
         e = (x, y)
         if x != id:
           x, y = y, x
-        self.play(Indicate(graph.vertices[y]))
         if y in visited:
           continue
+        self.play(Indicate(graph.vertices[y]))
         w = graph.edges[e].weight
         if w < mst_weights[y][1]:
           sim.update_key(y, w)
@@ -164,7 +173,6 @@ class Prims(Scene):
             an.append(mst.animate.remove_edges(mst_edges[y]))
           an.append(mst.animate.add_edges(
             (y, x),
-            edge_type=Arrow,
             edge_config={"color": YELLOW}
           ))
           mst_edges[y] = (y, x)
@@ -195,9 +203,11 @@ class Prims(Scene):
       Uncreate(graph),
       Uncreate(ipq),
       Uncreate(mst),
+      ShrinkToCenter(highlight),
       Unwrite(steps),
       Unwrite(mst_text),
       Unwrite(ipq_text),
+      AnimationGroup(*[Unwrite(o) for o, _ in mst_weights.values()])
     ))
     self.play(ReplacementTransform(header, Title("Dijkstra's Algorithm")))
     self.wait(1)
