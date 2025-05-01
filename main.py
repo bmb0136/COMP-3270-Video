@@ -11,22 +11,14 @@ scenes = [
   ("end", "End"),
 ]
 
-is_final = "--final" in sys.argv
+is_final = "--final" in sys.argv\
 
-if "--skip-check" not in sys.argv:
-  for script, name in scenes:
-    assert os.system(f"py -m manim -ql -s {script}.py {name}") == 0
-
-proc_list = [subprocess.Popen([
-  "py",
-  "-m",
-  "manim",
-  f"-q{"h" if is_final else "l"}",
-  f"{script}.py",
-  name
-]) for script, name in scenes]
-for p in proc_list:
-  p.wait()
+codes = (
+  os.system(f"py -m manim -q{"h" if is_final else "l"} {script}.py {name}")
+  for script, name in scenes
+)
+for code in codes:
+  assert code == 0
 
 folder = "1080p60" if is_final else "480p15"
 
