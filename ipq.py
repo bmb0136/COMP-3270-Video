@@ -42,7 +42,7 @@ class IPQ(Scene):
       "Update the key in the heap",
       "$\\text{parent}(Z)=Y$, and $0<2$, so swap $Z$ and $Y$",
       "$\\text{parent}(Z)=Z$, and $0<1$, so swap $Z$ and $A$",
-      "$Z$ can no longer be pushed up, so stop"
+      "The heap property has been restored, so stop"
     ]]
     self.play(Write(steps[0]))
     self.wait(1)
