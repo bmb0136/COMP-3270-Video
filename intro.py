@@ -8,7 +8,9 @@ class Intro(Scene):
 
     intro = Paragraph(
       "Prim's Algorithm returns an MST for a given graph",
+      "",
       "It is asymptotically faster than Kruskal's",
+      "",
       "Prim's primary advantage is the use of an Indexed Priority Queue",
       "",
       "Prim's is closely related to Dijkstra's Algorithm and A*;",
