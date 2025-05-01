@@ -1,4 +1,4 @@
-import os, sys, subprocess
+import os, sys
 
 scenes = [
   ("intro", "Intro"),
