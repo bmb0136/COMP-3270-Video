@@ -18,20 +18,20 @@ class Intro(Scene):
       alignment="center"
     ).scale(0.5).center()
     ipq_pos = 2 - len("Indexed Priority Queue")
-    intro[2][ipq_pos:].color = YELLOW
+    intro[4][ipq_pos:].color = YELLOW
     self.play(Write(intro))
 
     self.wait(4)
     self.play(LaggedStart(*[
       Unwrite(intro[0]),
-      Unwrite(intro[1]),
-      Unwrite(VGroup(intro[2][:ipq_pos])),
-      Unwrite(intro[4]),
-      Unwrite(intro[5]),
-      intro[2][ipq_pos:].animate.move_to(ORIGIN),
+      Unwrite(intro[2]),
+      Unwrite(VGroup(intro[4][:ipq_pos])),
+      Unwrite(intro[6]),
+      Unwrite(intro[7]),
+      intro[4][ipq_pos:].animate.move_to(ORIGIN),
       Unwrite(header)
     ], lag_ratio=0.5))
-    self.play(ReplacementTransform(intro[2][ipq_pos:], Title("Indexed Priority Queue")))
+    self.play(ReplacementTransform(intro[4][ipq_pos:], Title("Indexed Priority Queue")))
 
 if __name__ == "__main__":
   os.system(f"py -m manim -ql \"{__file__}\" Intro")
