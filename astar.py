@@ -134,6 +134,7 @@ class AStar(Scene):
     ]]).arrange_in_grid(9, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
     steps[1].set_color_by_tex("dist", BLUE)
     steps[1].set_color_by_tex("score", ORANGE)
+    steps[1].set_color_by_tex("parent", YELLOW)
     steps[2].set_color_by_tex("dist", BLUE)
     steps[4].set_color_by_tex("parent", YELLOW)
     steps[4].set_color_by_tex("target", GREEN)
