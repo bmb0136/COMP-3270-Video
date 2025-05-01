@@ -19,9 +19,10 @@ class Comparison(Scene):
       [
         Tex("Prim's"),
         Tex("MST Edge\\\\", "MST Weight")
-        .set_color_by_tex("Edge", YELLOW)
-        .set_color_by_tex("Weight", BLUE),
-        Tex("e.weight $<$ adj.mst\\_weight"),
+          .set_color_by_tex("Edge", YELLOW)
+          .set_color_by_tex("Weight", BLUE),
+        Tex("e.weight $<$ adj.", "mst\\_weight")
+          .set_color_by_tex("mst", BLUE),
         Tex("mst\\_edge", " = e\\\\", "updateKey(adj, e.weight)")
           .set_color_by_tex("edge", YELLOW),
         Tex("0"),
@@ -59,7 +60,7 @@ class Comparison(Scene):
     texts = [Tex(*x).scale(0.75).move_to(text_pos) for x in [
       ["All three algorithms can be summarized as follows"],
       ["Barring A*'s initial priority and the return values, the relax step and data are the only differences"],
-      ["Implementation wise, all three use an IPQ, pop the minimum, and relax adjacent edges/nodes"],
+      ["Implementation wise, all three add the nodes to an IPQ, pop the minimum, and relax adjacent edges/nodes"],
       ["In fact, A* and Dijkstra's are so similar that A* is equivalent to Dijkstra's if $h(x)=0$"],
       ["Conversely, Dijkstra is equivalent to A* if $h(u)-h(v)$ is added to each edge $(u,v)$"],
       ["Lastly, Prim's and Dijkstra's are only different by the distance/weight values assigned to each node and the return value"],
