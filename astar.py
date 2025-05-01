@@ -10,14 +10,19 @@ class AStar(Scene):
 
     detail = VGroup(*[Tex(*x).scale(0.75) for x in [
       ["A* finds a minimum cost path on a graph"],
+      ["invisible"],
       ["It is nearly identical to Dijkstra's, except:"],
       ["$\\cdot$ a ", "score", " is stored for each node in addition to the ", "distance"],
-      ["$\\cdot$ a heuristic function $h(x)$ that returns a lower{\\newline}bound on the distance to the target*"],
+      ["$\\cdot$ it uses a heuristic function ", "$h(x)$", " that returns a\\\\lower bound on the ", "distance", " to the target*"],
+      ["invisible"],
       ["*This is typically Euclidean distance"]
     ]]).arrange(DOWN, buff=SMALL_BUFF).center()
-    detail[2].set_color_by_tex("score", ORANGE)
-    detail[2].set_color_by_tex("dist", BLUE)
-    detail[3]
+    detail[1].set_color(BLACK)
+    detail[-2].set_color(BLACK)
+    detail[3].set_color_by_tex("score", ORANGE)
+    detail[3].set_color_by_tex("dist", BLUE)
+    detail[4].set_color_by_tex("dist", BLUE)
+    detail[4].set_color_by_tex("h(x)", ORANGE)
     self.play(Write(detail))
     self.wait(8)
 
@@ -119,16 +124,16 @@ class AStar(Scene):
       ["2. Initialize nodes with null ", "parent", ", $\\infty$\\space", " distance ", ", and $\\infty$\\space", " score"],
       ["3. Update ", "distance", " of start node to $0$, and ", "priority", " to $h(x)$"],
       ["4. Pop minimum node off IPQ"],
-      ["5. If node is target, return path (reversed parent chain)"],
+      ["5. If node is ", "target", ", return path (reversed ", "parent", " chain)"],
       ["6. Relax adjacent nodes (decrease key, set ", "parent", ", update ", "distance", ",{\\newline} and update ", "score", " if adj.", "dist", " $+$ weight $<$ current.", "dist", ")"],
       ["7. Mark node as ", "seen"],
-      ["8. If IPQ is not empty, goto 4"]
+      ["8. If IPQ is not empty, goto 4, else no path exists"]
     ]]).arrange_in_grid(9, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
     steps[1].set_color_by_tex("dist", BLUE)
     steps[1].set_color_by_tex("score", ORANGE)
     steps[2].set_color_by_tex("dist", BLUE)
     steps[4].set_color_by_tex("parent", YELLOW)
-    steps[4].set_color_by_tex("add", RED)
+    steps[4].set_color_by_tex("target", GREEN)
     steps[5].set_color_by_tex("parent", YELLOW)
     steps[5].set_color_by_tex("dist", BLUE)
     steps[5].set_color_by_tex("score", ORANGE)
