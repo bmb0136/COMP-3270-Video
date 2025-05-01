@@ -98,12 +98,15 @@ class AStar(Scene):
       new[0].set_color(BLUE)
       new[2].set_color(ORANGE)
       data[x] = (new, val, score)
-    data[0][0].shift(RIGHT * 0.3)
+    data[0][0].shift(RIGHT * 0.3).shift(UP * 0.1)
+    data[1][0].shift(UL * 0.1)
     data[2][0].shift(DL * 0.2)
-    data[5][0].shift(DL * 0.25)
     data[3][0].shift(LEFT * 0.2)
+    data[4][0].shift(UL * 0.1)
+    data[5][0].shift(DL * 0.25)
     data[6][0].move_to(graph.vertices[6]) \
-      .shift(DOWN * ((graph.vertices[6]).radius + 0.15))
+      .shift(DOWN * ((graph.vertices[6]).radius + 0.175))
+    data[7][0].shift(UL * 0.1)
     
     h = lambda x: (lambda a, b: math.sqrt(sum((
       math.pow(a[i] - b[i], 2)
