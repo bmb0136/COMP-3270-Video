@@ -13,8 +13,9 @@ scenes = [
 
 is_final = "--final" in sys.argv
 
-for script, name in scenes:
-  assert os.system(f"py -m manim -ql -s {script}.py {name}") == 0
+if "--skip-check" not in sys.argv:
+  for script, name in scenes:
+    assert os.system(f"py -m manim -ql -s {script}.py {name}") == 0
 
 proc_list = [subprocess.Popen([
   "py",
