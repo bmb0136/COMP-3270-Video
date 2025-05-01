@@ -33,3 +33,4 @@ with open("list", "w") as f:
   f.write("\n".join([f"file '.{os.sep}media{os.sep}videos{os.sep}{script}{os.sep}{folder}{os.sep}{name}.mp4'" for script, name in scenes]))
 os.system("ffmpeg -f concat -safe 0 -y -i list -c copy render.mp4")
 os.remove("list")
+os.system("explorer render.mp4")
