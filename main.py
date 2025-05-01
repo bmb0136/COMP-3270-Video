@@ -8,6 +8,7 @@ scenes = [
   ("astar", "AStar"),
   ("comparison", "Comparison"),
   ("comparison2", "Comparison"),
+  ("end", "End"),
 ]
 
 is_final = "--final" in sys.argv
