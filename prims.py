@@ -88,7 +88,7 @@ class Prims(Scene):
       ["3. Update priority and ", "weight", " of start node to $0$"],
       ["4. Pop minimum node off IPQ"],
       ["5. If the node's ", "MST edge", " is not null, ", "add", " to MST"],
-      ["6. Relax adjacent nodes (decrease key, update ", "MST distance", "\\\\and set ", "MST edge", " if e.weight $<$ adj.", "mst\\_weight", ")"],
+      ["6. Relax adjacent nodes (decrease key, update ", "MST weight", "\\\\and set ", "MST edge", " if e.weight $<$ adj.", "mst\\_weight", ")"],
       ["7. Mark node as ", "seen"],
       ["8. If IPQ is not empty, goto 4"]
     ]]).arrange_in_grid(8, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
@@ -99,7 +99,7 @@ class Prims(Scene):
     steps[4].set_color_by_tex("MST edge", YELLOW)
     steps[4].set_color_by_tex("add", RED)
     steps[5].set_color_by_tex("MST edge", YELLOW)
-    steps[5].set_color_by_tex("MST distance", BLUE)
+    steps[5].set_color_by_tex("MST weight", BLUE)
     steps[5].set_color_by_tex("_weight", BLUE)
     steps[6].set_color_by_tex("seen", RED)
 
