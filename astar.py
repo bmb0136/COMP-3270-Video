@@ -7,7 +7,6 @@ class AStar(Scene):
   def construct(self):
     header = Title("A*")
     self.add(header)
-    self.wait(1)
 
     detail = VGroup(*[Tex(*x).scale(0.75) for x in [
       ["A* finds a minimum cost path on a graph"],
