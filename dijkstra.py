@@ -101,7 +101,7 @@ class Dijkstra(Scene):
       ["2. Initialize nodes with null ", "parent", " and $\\infty$\\space", " distance"],
       ["3. Update priority and ", "distance", " of start node to $0$"],
       ["4. Pop minimum node off IPQ"],
-      ["5. If node is target, return path (reversed parent chain)"],
+      ["5. If node is target, return path (reversed ", "parent", " chain)"],
       ["6. Relax adjacent nodes (decrease key, update ", "distance", ", and{\\newline}set ", "parent", " if adj.", "dist", " $+$ weight $<$ current.", "dist", ")"],
       ["7. Mark node as ", "seen"],
       ["8. If IPQ is not empty, goto 4, else no path exists"]
@@ -110,7 +110,6 @@ class Dijkstra(Scene):
     steps[1].set_color_by_tex("dist", BLUE)
     steps[2].set_color_by_tex("dist", BLUE)
     steps[4].set_color_by_tex("parent", YELLOW)
-    steps[4].set_color_by_tex("add", RED)
     steps[5].set_color_by_tex("parent", YELLOW)
     steps[5].set_color_by_tex("dist", BLUE)
     steps[5].set_color_by_tex("dist", BLUE)
