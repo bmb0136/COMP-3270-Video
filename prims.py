@@ -95,7 +95,7 @@ class Prims(Scene):
 
     steps[0].set_color_by_tex("MST edge", YELLOW)
     steps[0].set_color_by_tex("weight", BLUE)
-    steps[1].set_color_by_tex("weight", BLUE)
+    steps[2].set_color_by_tex("weight", BLUE)
     steps[4].set_color_by_tex("MST edge", YELLOW)
     steps[4].set_color_by_tex("add", RED)
     steps[5].set_color_by_tex("MST edge", YELLOW)
