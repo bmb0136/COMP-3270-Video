@@ -37,16 +37,41 @@ class Prims(Scene):
     for o in graph.vertices.values():
       o.submobjects[0].set_color(BLACK)
     graph.shift(RIGHT * 3)
-    mst = Graph(
+    mst = DiGraph(
       vertices,
-      [(x, y) for x, y, _ in edges],
+      [],
       labels=True,
-      layout="kamada_kawai"
+      layout=graph._layout
     ).scale(0.5).to_corner(DL)
     for o in mst.vertices.values():
       o.submobjects[0].set_color(BLACK)
     for o in mst.edges.values():
       o.set_color(ManimColor.from_rgba([0, 0, 0, 0]))
+
+    mst_weights = {
+      k: (MathTex("\\infty")
+        .scale(0.5)
+        .set_color(BLUE)
+        .move_to(x)
+        .shift(UL * (x.radius + SMALL_BUFF)), float('inf'))
+      for k, x in graph.vertices.items()
+    }
+    def set_weight(x, val):
+      old, _ = mst_weights[x]
+      self.play(ReplacementTransform(
+        old,
+        new := MathTex(f"{val}")
+          .scale(0.5)
+          .move_to(old)
+          .set_color(BLUE)
+      ))
+      self.remove(old)
+      self.add(new)
+      mst_weights[x] = (new, val)
+    mst_weights[0][0].shift(RIGHT * 0.2)
+    mst_weights[2][0].shift(DL * 0.2)
+    mst_weights[5][0].shift(DL * 0.2)
+    mst_weights[6][0].shift(RIGHT * 0.1)
 
     ipq = MathTable([[
       f"{i}, \\infty" for i in range(8)
@@ -58,20 +83,24 @@ class Prims(Scene):
     sim = Sim(self, ipq, 8)
 
     steps = VGroup(*[Tex(*x) for x in [
-      ["1. Init IPQ with all nodes with null ", "MST edge", " and priority $\\infty$"],
+      ["1. Init IPQ with all nodes with null ", "MST edge", ", $\\infty$ ", "MST weight", ", and $\\infty$ priority"],
       ["2. Create MST with no edges"],
-      ["3. Update priority of start node to $0$"],
+      ["3. Update priority and ", "weight", " of start node to $0$"],
       ["4. Pop minimum node off IPQ"],
       ["5. If the node's ", "MST edge", " is not null, ", "add", " to MST"],
-      ["6. Relax adjacent nodes (decrease key and set ", "MST edge", " if{\\newline}edge weight $<$ key)"],
+      ["6. Relax adjacent nodes (decrease key, update ", "MST distance", "\\\\and set ", "MST edge", " if e.weight $<$ adj.", "mst\\_weight", ")"],
       ["7. Mark node as ", "seen"],
       ["8. If IPQ is not empty, goto 4"]
     ]]).arrange_in_grid(8, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
 
     steps[0].set_color_by_tex("MST edge", YELLOW)
+    steps[0].set_color_by_tex("weight", BLUE)
+    steps[1].set_color_by_tex("weight", BLUE)
     steps[4].set_color_by_tex("MST edge", YELLOW)
     steps[4].set_color_by_tex("add", RED)
     steps[5].set_color_by_tex("MST edge", YELLOW)
+    steps[5].set_color_by_tex("MST distance", BLUE)
+    steps[5].set_color_by_tex("_weight", BLUE)
     steps[6].set_color_by_tex("seen", RED)
 
     self.play(Write(steps))
@@ -81,6 +110,7 @@ class Prims(Scene):
     self.play(Indicate(steps[0]))
     self.play(Create(ipq))
     self.play(Write(ipq_text := Text("IPQ").scale(0.5).move_to(ipq).align_to(ipq, LEFT).shift(LEFT * 0.75)))
+    self.play(AnimationGroup(*[Write(o) for o, _ in mst_weights.values()]))
     self.wait(1)
 
     self.play(Indicate(steps[1]))
@@ -92,11 +122,11 @@ class Prims(Scene):
 
     self.play(Indicate(steps[2]))
     sim.update_key(1, 0)
+    set_weight(1, 0)
     self.wait(1)
 
     visited = set()
     mst_edges = {}
-    mst_weight = {x: sim.keys[x] for x in graph.vertices.keys()}
     while sim.count > 0:
       self.play(Indicate(steps[3]))
       id = sim.pop_min()
@@ -105,8 +135,7 @@ class Prims(Scene):
       self.play(Indicate(steps[4]))
       self.play(Indicate(mst.vertices[id]))
       if id in mst_edges:
-        x, y = mst_edges[id]
-        e = mst.edges[(x, y)]
+        e = mst.edges[mst_edges[id]]
         self.play(AnimationGroup(
           e.animate.set_color(RED),
           Flash(e, flash_radius=MED_SMALL_BUFF)
@@ -127,15 +156,18 @@ class Prims(Scene):
         if y in visited:
           continue
         w = graph.edges[e].weight
-        if w < mst_weight[y]:
+        if w < mst_weights[y][1]:
           sim.update_key(y, w)
-          mst_weight[y] = w
-          an = [mst.edges[e].animate.set_color(YELLOW)]
+          set_weight(y, w)
+          an = []
           if y in mst_edges:
-            an.append(mst.edges[mst_edges[y]].animate.set_color(
-              ManimColor.from_rgba([0, 0, 0, 0]))
-            )
-          mst_edges[y] = e
+            an.append(mst.animate.remove_edges(mst_edges[y]))
+          an.append(mst.animate.add_edges(
+            (y, x),
+            edge_type=Arrow,
+            edge_config={"color": YELLOW}
+          ))
+          mst_edges[y] = (y, x)
           self.play(AnimationGroup(*an))
       self.wait(1)
 
@@ -151,7 +183,9 @@ class Prims(Scene):
       self.play(Indicate(steps[7]))
 
     self.play(LaggedStart(*[
-      graph.edges[e].animate.set_stroke(RED)
+      graph.edges[e].animate.set_stroke(RED) \
+        if e in graph.edges else \
+      graph.edges[(e[1], e[0])].animate.set_stroke(RED)
       for e, v in mst.edges.items()
       if v.color == RED
     ]))

@@ -97,7 +97,7 @@ class Dijkstra(Scene):
     sim = Sim(self, ipq, 8)
 
     steps = VGroup(*[Tex(*x) for x in [
-      ["1. Init IPQ with all nodes with null ", "parent", " and priority $\\infty$"],
+      ["1. Init IPQ with all nodes with null ", "parent", " and $\\infty$ priority"],
       ["2. Initialize nodes with null ", "parent", " and $\\infty$\\space", " distance"],
       ["3. Update priority and ", "distance", " of start node to $0$"],
       ["4. Pop minimum node off IPQ"],

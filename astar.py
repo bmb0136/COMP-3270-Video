@@ -116,7 +116,7 @@ class AStar(Scene):
     sim = Sim(self, ipq, 8)
 
     steps = VGroup(*[Tex(*x) for x in [
-      ["1. Init IPQ with all nodes with null ", "parent", " and priority $\\infty$"],
+      ["1. Init IPQ with all nodes with $\\infty$ priority"],
       ["2. Initialize nodes with null ", "parent", ", $\\infty$\\space", " distance ", ", and $\\infty$\\space", " score"],
       ["3. Update ", "distance", " of start node to $0$, and ", "priority", " to $h(x)$"],
       ["4. Pop minimum node off IPQ"],
@@ -125,7 +125,6 @@ class AStar(Scene):
       ["7. Mark node as ", "seen"],
       ["8. If IPQ is not empty, goto 4"]
     ]]).arrange_in_grid(9, 1, col_alignments="l").scale(0.5).to_edge(LEFT).shift(UP * 1.15)
-    steps[0].set_color_by_tex("parent", YELLOW)
     steps[1].set_color_by_tex("dist", BLUE)
     steps[1].set_color_by_tex("score", ORANGE)
     steps[2].set_color_by_tex("dist", BLUE)
