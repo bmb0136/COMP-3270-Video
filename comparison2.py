@@ -61,7 +61,7 @@ class Comparison(Scene):
       ["Barring A*'s initial priority and the return values, the relax step and data are the only differences"],
       ["Implementation wise, all three use an IPQ, pop the minimum, and relax adjacent edges/nodes"],
       ["In fact, A* and Dijkstra's are so similar that A* is equivalent to Dijkstra's if $h(x)=0$"],
-      ["Conversely, Dijkstra is equivalent to A* if $h(u)-h(v)$ is added to each edge $(u,v)$"]
+      ["Conversely, Dijkstra is equivalent to A* if $h(u)-h(v)$ is added to each edge $(u,v)$"],
       ["Lastly, Prim's and Dijkstra's are only different by the distance/weight values assigned to each node and the return value"],
     ]]
 
